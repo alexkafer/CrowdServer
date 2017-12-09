@@ -79,6 +79,7 @@ class MultiplayerQueue():
     def remove_current_player(self, number):
         try:
             self.pixelManager.send_update(self.in_game[number-1]['id'],  "mode_change", {"mode": "line"})
+            self.add_player(self.in_game[number-1])
             self.in_game[number-1] = None
             self.pixelManager.update_positions()
         except Exception as e:
