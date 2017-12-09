@@ -35,6 +35,7 @@ class MultiplayerQueue():
             self.pixelManager.send_update(player['id'],  "mode_change", {"mode": self.pixelManager.current_mode})
 
             self.in_game[number] = player
+            self.pixelManager.update_positions()
             return player
         except IndexError:
             return None
@@ -77,6 +78,7 @@ class MultiplayerQueue():
         try:
             self.pixelManager.send_update(self.in_game[number-1]['id'],  "mode_change", {"mode": "line"})
             self.in_game[number-1] = None
+            self.pixelManager.update_positions()
         except Exception as e:
             print "Removing player error", e
 
@@ -85,3 +87,4 @@ class MultiplayerQueue():
             if player is not None:
                 self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
                 player = None
+                self.pixelManager.update_positions()

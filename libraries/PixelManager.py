@@ -90,7 +90,8 @@ class PixelManager(HTTPServer):
     def client_left(self, client, server):
         """ Called for every client disconnecting """
         print "Client disconnected", client
-        self.multiplayer.remove_player(client['id'])
+        if self.multiplayer.remove_player(client['id']):
+            self.update_positions()
 
     def update_positions(self):
         print "updating positions"
