@@ -57,18 +57,19 @@ class MultiplayerQueue():
         except ValueError:
             return False
 
-        for player in self.line:
-            try:
-                if player['id'] == client:
-                    print "Removing player in line"
-                    self.line.remove(player)
-                    return True
-            except:
-                return False
+        # for player in self.line:
+        #     try:
+        #         if player['id'] == client:
+        #             print "Removing player in line"
+        #             self.line.remove(player)
+        #             return True
+        #     except:
+        #         return False
         for idx, val in enumerate(self.in_game):
             try:
                 if val['id'] == client:
                     print "Kicking current player ", idx
+                    self.add_player(self.in_game[idx])
                     self.in_game[idx] = None
                     return True
             except:
@@ -84,8 +85,9 @@ class MultiplayerQueue():
             print "Removing player error", e
 
     def clear_players(self):
-        for player in self.in_game:
+        for index, player in enumerate(self.in_game):
             if player is not None:
                 self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
-                player = None
+                self.add_player(player)
+                self.in_game[index] = None
                 self.pixelManager.update_positions()
