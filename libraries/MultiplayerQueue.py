@@ -31,7 +31,7 @@ class MultiplayerQueue():
         try:
             player = self.line.popleft() 
             print "Starting ", player['id']
-            notifyCb(player['id'], "mode_change", {"mode": "pong"})
+            notifyCb(player['id'], "mode_change", {"mode": game})
 
             self.in_game[number] = player
             return player

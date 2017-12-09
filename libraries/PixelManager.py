@@ -95,6 +95,7 @@ class PixelManager(HTTPServer):
     def update_positions(self):
         for index, player in enumerate(list(self.multiplayer.line)):
             try:
+                print "Player", player['id'], "is", index+1
                 player['handler'].send_message(json.dumps({"position": index+1}, cls=ColorEncoder))
             except:
                 print ("Player doesn't exist issue")
