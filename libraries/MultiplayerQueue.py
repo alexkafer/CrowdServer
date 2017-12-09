@@ -10,6 +10,7 @@ class MultiplayerQueue():
         if player not in self.line:
             self.line.append(player)
             print "Added player: ", player['id']
+            self.pixelManager.update_positions()
         else:
             print "Player", player['id'],  "already on list"
 
