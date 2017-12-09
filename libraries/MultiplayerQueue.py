@@ -1,10 +1,10 @@
 from collections import deque
 
 class MultiplayerQueue():
-    def __init__(self, update_callback):
+    def __init__(self, pixel):
         self.line = deque()
         self.in_game = []
-        self.update_callback = update_callback
+        self.pixelManager = pixel
         
     def add_player(self, player):
         if player not in self.line:
@@ -26,30 +26,30 @@ class MultiplayerQueue():
         self.in_game = [None]*size
         print "set size", size
 
-    def start_player(self, number, notifyCb, game):
+    def start_player(self, number):
         """ Returns the ID of the new player"""
         try:
             player = self.line.popleft() 
             print "Starting ", player['id']
-            notifyCb(player['id'], "mode_change", {"mode": game})
+
+            self.pixelManager.send_update(player['id'],  "mode_change", {"mode": self.pixelManager.current_mode})
 
             self.in_game[number] = player
-            self.update_callback()
             return player
         except IndexError:
             return None
 
-    def fill_players(self, notifyCb, game):
+    def fill_players(self):
         for idx, val in enumerate(self.in_game):
             if val is None:
                 print "Filling a player ", idx
-                self.start_player(idx, notifyCb, game)
+                self.start_player(idx)
 
-    def remove_player(self, clientID, notifyCb=None):
+    def remove_player(self, clientID):
         print "Kicking player", clientID
-        self.update_callback()
-        if notifyCb is not None:
-            notifyCb(clientID, "mode_change", {"mode": "line"})
+
+        self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
+
         try:
             client = int(clientID)
         except ValueError:
@@ -73,6 +73,14 @@ class MultiplayerQueue():
                 return False
         return False
 
+    def remove_current_player(self, number):
+        try:
+            self.pixelManager.send_update(self.in_game[number-1]['id'],  "mode_change", {"mode": "line"})
+            self.in_game[number-1] = None
+        except Exception as e:
+            print "Removing player error", e
+
     def clear_players(self):
         for player in self.in_game:
+            self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
             player = None

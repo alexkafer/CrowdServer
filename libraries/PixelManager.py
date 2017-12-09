@@ -72,7 +72,7 @@ class PixelManager(HTTPServer):
         HTTPServer.__init__(self, server_address, PixelServer)
 
         self.current_mode = "places"
-        self.multiplayer = MultiplayerQueue(self.update_positions)    
+        self.multiplayer = MultiplayerQueue(self)    
         
     def new_client(self, client, server):
             """ Called for every client connecting (after handshake) """
@@ -96,6 +96,7 @@ class PixelManager(HTTPServer):
         print "updating positions"
         position = 1
         for player in self.multiplayer.line:
+            print "Found player", player
             try:
                 print "Player", player['id'], "is", position
                 player['handler'].send_message(json.dumps({"type": "player_position", "position": position}, cls=ColorEncoder))
@@ -154,7 +155,7 @@ class PixelManager(HTTPServer):
         self.multiplayer.set_game_size(size)
 
     def start_game_filling(self):
-        self.multiplayer.fill_players(self.send_update, self.current_mode)
+        self.multiplayer.fill_players()
 
     def add_player_to_line(self, client, update):
         self.multiplayer.add_player(client)

@@ -116,16 +116,18 @@ def multiplayer_test():
         # PIXELS.clear_players()
 
 def pong_command():
-    game = PongGame(PIXELS)
-    game.show_score()
-
     try:
-        while not game.finished:
-            PIXELS.start_game_filling()
-            time.sleep(0.25)
-            game.update()
-            PIXELS.render_update()
-        PIXELS.clear_players()
+        while True:
+            game = PongGame(PIXELS)
+            game.show_score()
+
+            while not game.finished:
+                PIXELS.start_game_filling()
+                time.sleep(0.25)
+                game.update()
+                PIXELS.render_update()
+
+            PIXELS.clear_players()
     except KeyboardInterrupt:
         print('interrupted!')
 

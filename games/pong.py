@@ -150,6 +150,8 @@ class PongGame:
         else:
             self.show_score()
 
+        self.pixel_manager.multiplayer.remove_current_player(2)
+
     def score_right(self):
         print "Right Scores! ", self.right_score, " + 1!"
         self.right_score += 1
@@ -159,6 +161,8 @@ class PongGame:
             self.show_right_win()
         else:
             self.show_score()
+
+        self.pixel_manager.multiplayer.remove_current_player(1)
 
     def show_right_win(self):
         print "Right Wins! "
