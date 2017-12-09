@@ -48,7 +48,7 @@ class MultiplayerQueue():
     def remove_player(self, clientID):
         print "Kicking player", clientID
 
-        self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
+        self.pixelManager.send_update(clientID,  "mode_change", {"mode": "line"})
 
         try:
             client = int(clientID)
@@ -82,5 +82,6 @@ class MultiplayerQueue():
 
     def clear_players(self):
         for player in self.in_game:
-            self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
-            player = None
+            if player is not None:
+                self.pixelManager.send_update(player['id'],  "mode_change", {"mode": "line"})
+                player = None
