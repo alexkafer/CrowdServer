@@ -94,7 +94,7 @@ class PixelManager(HTTPServer):
             self.update_positions()
 
     def update_positions(self):
-        print "updating positions", self.multiplayer.line:
+        print "updating positions", self.multiplayer.line
         position = 1
         for player in self.multiplayer.line:
             print "Found player", player
