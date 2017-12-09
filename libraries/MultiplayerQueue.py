@@ -34,6 +34,7 @@ class MultiplayerQueue():
             notifyCb(player['id'], "mode_change", {"mode": game})
 
             self.in_game[number] = player
+            self.update_callback()
             return player
         except IndexError:
             return None
